@@ -1,0 +1,10 @@
+#:schema https://www.unpkg.com/wrangler/config-schema.json
+
+compatibility_date = "2025-04-27"
+compatibility_flags = ["nodejs_compat"]
+main = "src/index.ts"
+minify = true
+name = "liblaf-bot"
+
+[observability]
+enabled = true
