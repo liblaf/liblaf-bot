@@ -219,7 +219,7 @@
 
     "@octokit/types": ["@octokit/types@14.0.0", "https://registry.npmmirror.com/@octokit/types/-/types-14.0.0.tgz", { "dependencies": { "@octokit/openapi-types": "^25.0.0" } }, "sha512-VVmZP0lEhbo2O1pdq63gZFiGCKkm8PPp8AUOijlwPO6hojEVjspA0MWKP7E4hbvGxzFKNqKr6p0IYtOH/Wf/zA=="],
 
-    "@octokit/webhooks": ["@octokit/webhooks@13.8.0", "https://registry.npmmirror.com/@octokit/webhooks/-/webhooks-13.8.0.tgz", { "dependencies": { "@octokit/openapi-webhooks-types": "10.4.0", "@octokit/request-error": "^6.1.7", "@octokit/webhooks-methods": "^5.1.1" } }, "sha512-3PCWyFBNbW2+Ox36VAkSqlPoIb96NZiPcICRYySHZrDTM2NuNxvrjPeaQDj2egqILs9EZFObRTHVMe4XxXJV7w=="],
+    "@octokit/webhooks": ["@octokit/webhooks@13.8.1", "https://registry.npmmirror.com/@octokit/webhooks/-/webhooks-13.8.1.tgz", { "dependencies": { "@octokit/openapi-webhooks-types": "10.4.0", "@octokit/request-error": "^6.1.7", "@octokit/webhooks-methods": "^5.1.1" } }, "sha512-36buYItOREFvCVUsCQGNBx1n9/M4AyVIHparQFeinLZIsjNDRpovDqnOt+EBIK8+opWCOMTTC5gctbMoLGwSyg=="],
 
     "@octokit/webhooks-methods": ["@octokit/webhooks-methods@5.1.1", "https://registry.npmmirror.com/@octokit/webhooks-methods/-/webhooks-methods-5.1.1.tgz", {}, "sha512-NGlEHZDseJTCj8TMMFehzwa9g7On4KJMPVHDSrHxCQumL6uSQR8wIkP/qesv52fXqV1BPf4pTxwtS31ldAt9Xg=="],
 
@@ -590,6 +590,8 @@
     "zod": ["zod@3.24.3", "https://registry.npmmirror.com/zod/-/zod-3.24.3.tgz", {}, "sha512-HhY1oqzWCQWuUqvBFnsyrtZRhyPeR7SUGv+C4+MsisMuVfSPx8HpwWqH8tRahSlt6M3PiFAcoeFhZAqIXTxoSg=="],
 
     "@cspotcode/source-map-support/@jridgewell/trace-mapping": ["@jridgewell/trace-mapping@0.3.9", "https://registry.npmmirror.com/@jridgewell/trace-mapping/-/trace-mapping-0.3.9.tgz", { "dependencies": { "@jridgewell/resolve-uri": "^3.0.3", "@jridgewell/sourcemap-codec": "^1.4.10" } }, "sha512-3Belt6tdc8bPgAtbcmdtNJlirVoTmEb5e2gC94PnkwEW9jI6CAHUeoG85tjWP5WquqfavoMtMwiG4P926ZKKuQ=="],
+
+    "@octokit/app/@octokit/webhooks": ["@octokit/webhooks@13.8.0", "https://registry.npmmirror.com/@octokit/webhooks/-/webhooks-13.8.0.tgz", { "dependencies": { "@octokit/openapi-webhooks-types": "10.4.0", "@octokit/request-error": "^6.1.7", "@octokit/webhooks-methods": "^5.1.1" } }, "sha512-3PCWyFBNbW2+Ox36VAkSqlPoIb96NZiPcICRYySHZrDTM2NuNxvrjPeaQDj2egqILs9EZFObRTHVMe4XxXJV7w=="],
 
     "get-source/source-map": ["source-map@0.6.1", "https://registry.npmmirror.com/source-map/-/source-map-0.6.1.tgz", {}, "sha512-UjgapumWlbMhkBgzT7Ykc5YXUT46F0iKu8SGXq0bcwP5dz/h0Plj6enJqjz1Zbq2l5WaqYnrVbwWOWMyF3F47g=="],
 
