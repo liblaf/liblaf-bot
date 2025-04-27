@@ -145,4 +145,6 @@ dist
 
 .dev.vars
 .wrangler/
+*.key
+*.pem
 worker-configuration.d.ts

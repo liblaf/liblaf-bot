@@ -1,3 +1,4 @@
 # -*- mode: dotenv; -*-
 GITHUB_APP_ID='{{ (rbwFields "GitHub App").APP_ID.value }}'
-GITHUB_APP_PRIVATE_KEY='{{ (rbw "GitHub App").notes }}'
+GITHUB_APP_PRIVATE_KEY='{{ env "GITHUB_APP_PRIVATE_KEY" }}'
+GITHUB_APP_WEBHOOK_SECRET='{{ (rbwFields "GitHub App").WEBHOOK_SECRET.value }}'
