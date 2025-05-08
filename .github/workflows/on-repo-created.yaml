@@ -135,7 +135,7 @@ jobs:
         with:
           repo: ${{ inputs.owner }}/${{ inputs.repo }}
           token: ${{ secrets.GH_PAT }}
-          source-repo: liblaf/.github
+          source-repo: ${{ inputs.owner }}/.github
           source-ruleset-id: 3407904
 
   secrets:
