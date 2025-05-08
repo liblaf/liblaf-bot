@@ -75,6 +75,7 @@ jobs:
           --access-token "${{ secrets.GH_PAT }}"
           --labels "https://raw.githubusercontent.com/${{ inputs.owner }}/.github/main/.github/labels.yaml"
           --allow-added-labels
+          "${{ inputs.owner }}/${{ inputs.repo }}"
 
   repo:
     name: Repo
@@ -87,7 +88,6 @@ jobs:
         run: >-
           gh repo edit "${{ inputs.owner }}/${{ inputs.repo }}"
           --allow-update-branch
-          --default-branch "main"
           --delete-branch-on-merge
           --enable-auto-merge
           --enable-discussions
