@@ -16,13 +16,15 @@ jobs:
     steps:
       - name: Dispatch
         run: |-
-          gh repo list '${{ github.repository_owner }}' \
+          gh repo list \
             --jq '.[] | { owner: .owner.login, repo: .name }' \
             --json "name,owner" \
             --limit 1000 \
             --no-archived \
             --source | while read -r inputs; do
-            echo "$inputs" | gh workflow run 'on-repo-created.yaml' --json
+            echo "$inputs" |
+              gh workflow --repo '${{ github.repository }}' \
+                run 'on-repo-created.yaml' --json
           done
         env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
