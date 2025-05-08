@@ -112,3 +112,18 @@ jobs:
           token: ${{ secrets.GH_PAT }}
           source-repo: liblaf/.github
           source-ruleset-id: 3407904
+
+  secrets:
+    name: Secrets
+    runs-on: ubuntu-latest
+    concurrency:
+      group: ${{ inputs.owner }}/${{ inputs.repo }}/${{ github.workflow }}/secrets
+      cancel-in-progress: true
+    steps:
+      - name: Create or update secrets
+        run: |-
+          gh secret set CARGO_REGISTRY_TOKEN --body "${{ secrets.CARGO_REGISTRY_TOKEN }}"
+          gh secret set GH_APP_ID --body "${{ secrets.GH_APP_ID }}"
+          gh secret set GH_APP_PRIVATE_KEY --body "${{ secrets.GH_APP_PRIVATE_KEY }}"
+          gh secret set GH_PAT --body "${{ secrets.GH_PAT }}"
+          gh secret set NPM_TOKEN --body "${{ secrets.NPM_TOKEN }}"
