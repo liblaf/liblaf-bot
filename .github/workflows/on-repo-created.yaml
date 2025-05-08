@@ -87,6 +87,7 @@ jobs:
           private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
           owner: ${{ inputs.owner }}
           repositories: ${{ inputs.repo }}
+        # TODO: remove download labels until <https://github.com/Financial-Times/github-label-sync/issues/193> is resolved
       - name: Download Labels
         run: >-
           wget --output-document='labels.yaml'
@@ -129,8 +130,10 @@ jobs:
       cancel-in-progress: true
     steps:
       - name: Ruleset Import
+        # TODO: switch to gh cli until <https://github.com/cli/cli/issues/8019> is resolved
         uses: liblaf/actions/ruleset-import@main
         with:
+          repo: ${{ inputs.owner }}/${{ inputs.repo }}
           token: ${{ secrets.GH_PAT }}
           source-repo: liblaf/.github
           source-ruleset-id: 3407904
