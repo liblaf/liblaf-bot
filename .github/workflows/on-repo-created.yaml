@@ -2,7 +2,7 @@ name: >-
   On: Repo Created
 
 run-name: >-
-  On: Repo Created (${{ inputs.owner }}/${{ inputs.repo }})
+  ${{ inputs.owner }}/${{ inputs.repo }} > Repo Created
 
 on:
   workflow_dispatch:
