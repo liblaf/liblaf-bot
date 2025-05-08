@@ -47,14 +47,24 @@ jobs:
           private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
           owner: ${{ inputs.owner }}
           repositories: ${{ inputs.repo }}
-      - name: Checkout
+      - id: branches
+        name: Get Branches
+        run: |-
+          n_branches="$(gh api "/repos/${{ inputs.owner }}/${{ inputs.repo }}/branches" --jq 'length')"
+          echo "n_branches=$n_branches" >> "$GITHUB_OUTPUT"
+        env:
+          GH_TOKEN: ${{ steps.auth.outputs.token }}
+      - if: ${{ steps.branches.outputs.n_branches > 0 }}
+        name: Checkout
         uses: actions/checkout@v4
         with:
           repository: ${{ inputs.owner }}/${{ inputs.repo }}
           token: ${{ steps.auth.outputs.token }}
-      - name: Copier Update
+      - if: ${{ steps.branches.outputs.n_branches > 0 }}
+        name: Copier Update
         uses: liblaf/actions/copier-update@main
-      - name: Git Auto Commit
+      - if: ${{ steps.branches.outputs.n_branches > 0 }}
+        name: Git Auto Commit
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "chore(copier): update from template"
@@ -69,11 +79,23 @@ jobs:
       group: ${{ inputs.owner }}/${{ inputs.repo }}/${{ github.workflow }}/label
       cancel-in-progress: true
     steps:
+      - id: auth
+        name: Auth App
+        uses: liblaf/actions/auth-app@main
+        with:
+          app-id: ${{ secrets.GH_APP_ID }}
+          private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
+          owner: ${{ inputs.owner }}
+          repositories: ${{ inputs.repo }}
+      - name: Download Labels
+        run: >-
+          wget --output-document="labels.yaml"
+          "https://raw.githubusercontent.com/${{ inputs.owner }}/.github/main/.github/labels.yaml"
       - name: GitHub Label Sync
         run: >-
           npx github-label-sync
-          --access-token "${{ secrets.GH_PAT }}"
-          --labels "https://raw.githubusercontent.com/${{ inputs.owner }}/.github/main/.github/labels.yaml"
+          --access-token "${{ steps.auth.outputs.token }}"
+          --labels "labels.yaml"
           --allow-added-labels
           "${{ inputs.owner }}/${{ inputs.repo }}"
 
@@ -120,10 +142,12 @@ jobs:
       group: ${{ inputs.owner }}/${{ inputs.repo }}/${{ github.workflow }}/secrets
       cancel-in-progress: true
     steps:
-      - name: Create or update secrets
+      - name: Create or Update Secrets
         run: |-
           gh secret set CARGO_REGISTRY_TOKEN --body "${{ secrets.CARGO_REGISTRY_TOKEN }}"
           gh secret set GH_APP_ID --body "${{ secrets.GH_APP_ID }}"
           gh secret set GH_APP_PRIVATE_KEY --body "${{ secrets.GH_APP_PRIVATE_KEY }}"
           gh secret set GH_PAT --body "${{ secrets.GH_PAT }}"
           gh secret set NPM_TOKEN --body "${{ secrets.NPM_TOKEN }}"
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT }}
