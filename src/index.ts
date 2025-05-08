@@ -78,7 +78,7 @@ async function createWorkflowDispatch(
     {
       owner: "liblaf",
       repo: "liblaf-bot",
-      workflow_id: "bot-repo-created.yaml",
+      workflow_id: "on-repo-created.yaml",
       ref: "main",
       inputs: { owner, repo },
     },

@@ -1,4 +1,4 @@
-name: (Bot) Repo Created
+name: (On) Repo Created
 
 on:
   workflow_dispatch:
