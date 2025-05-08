@@ -1,4 +1,8 @@
-name: Schedule
+name: >-
+  On: Schedule
+
+run-name: >-
+  On: Schedule
 
 on:
   schedule:
@@ -10,9 +14,10 @@ jobs:
     name: Dispatch
     runs-on: ubuntu-latest
     steps:
-      - run: |-
+      - name: Dispatch
+        run: |-
           gh repo list \
-            --jq '.[] | { "owner": .owner.login,1 repo: .name }' \
+            --jq '.[] | { owner: .owner.login, repo: .name }' \
             --json "name,owner" \
             --limit 1000 \
             --no-archived \
