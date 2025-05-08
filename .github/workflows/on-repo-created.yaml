@@ -25,8 +25,8 @@ jobs:
       - name: Set Default Workflow Permissions
         # https://docs.github.com/en/rest/actions/permissions#set-default-workflow-permissions-for-a-repository
         run: >-
-          gh api "/repos/${{ inputs.owner }}/${{ inputs.repo }}/actions/permissions/workflow"
-          --field default_workflow_permissions="read"
+          gh api '/repos/${{ inputs.owner }}/${{ inputs.repo }}/actions/permissions/workflow'
+          --field default_workflow_permissions='read'
           --field can_approve_pull_request_reviews=true
           --method PUT
         env:
@@ -89,15 +89,15 @@ jobs:
           repositories: ${{ inputs.repo }}
       - name: Download Labels
         run: >-
-          wget --output-document="labels.yaml"
-          "https://raw.githubusercontent.com/${{ inputs.owner }}/.github/main/.github/labels.yaml"
+          wget --output-document='labels.yaml'
+          'https://raw.githubusercontent.com/${{ inputs.owner }}/.github/main/.github/labels.yaml'
       - name: GitHub Label Sync
         run: >-
           npx github-label-sync
-          --access-token "${{ steps.auth.outputs.token }}"
-          --labels "labels.yaml"
+          --access-token '${{ steps.auth.outputs.token }}'
+          --labels 'labels.yaml'
           --allow-added-labels
-          "${{ inputs.owner }}/${{ inputs.repo }}"
+          '${{ inputs.owner }}/${{ inputs.repo }}'
 
   repo:
     name: Repo
@@ -108,7 +108,7 @@ jobs:
     steps:
       - name: Edit Repository Setttings
         run: >-
-          gh repo edit "${{ inputs.owner }}/${{ inputs.repo }}"
+          gh repo edit '${{ inputs.owner }}/${{ inputs.repo }}'
           --allow-update-branch
           --delete-branch-on-merge
           --enable-auto-merge
@@ -144,10 +144,14 @@ jobs:
     steps:
       - name: Create or Update Secrets
         run: |-
-          gh secret set CARGO_REGISTRY_TOKEN --body "${{ secrets.CARGO_REGISTRY_TOKEN }}"
-          gh secret set GH_APP_ID --body "${{ secrets.GH_APP_ID }}"
-          gh secret set GH_APP_PRIVATE_KEY --body "${{ secrets.GH_APP_PRIVATE_KEY }}"
-          gh secret set GH_PAT --body "${{ secrets.GH_PAT }}"
-          gh secret set NPM_TOKEN --body "${{ secrets.NPM_TOKEN }}"
+          function secret-set() {
+            gh secret --repo '${{ inputs.owner }}/${{ inputs.repo }}' set "$1" --body "$2"
+          }
+
+          secret-set CARGO_REGISTRY_TOKEN '${{ secrets.CARGO_REGISTRY_TOKEN }}'
+          secret-set GH_APP_ID '${{ secrets.GH_APP_ID }}'
+          secret-set GH_APP_PRIVATE_KEY '${{ secrets.GH_APP_PRIVATE_KEY }}'
+          secret-set GH_PAT '${{ secrets.GH_PAT }}'
+          secret-set NPM_TOKEN '${{ secrets.NPM_TOKEN }}'
         env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
