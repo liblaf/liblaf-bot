@@ -10,42 +10,27 @@ on:
   workflow_dispatch:
 
 jobs:
-  list:
-    name: List
-    runs-on: ubuntu-latest
-    outputs:
-      repos: ${{ steps.list.outputs.repos }}
-    steps:
-      - id: list
-        name: List
-        run: |-
-          gh repo list \
-            --jq 'map({ owner: .owner.login, repo: .name })' \
-            --json "name,owner" \
-            --limit 1000 \
-            --no-archived \
-            --source >> "$GITHUB_OUTPUT"
-        env:
-          GH_TOKEN: ${{ secrets.GH_PAT }}
-
   dispatch:
     name: Dispatch
-    needs:
-      - list
     runs-on: ubuntu-latest
     steps:
       - name: Dispatch
-        run: >-
-          gh workflow --repo '${{ github.repository }}'
-          run '${{ matrix.workflow }}'
-          --field owner='${{ matrix.repos.owner }}'
-          --field repo='${{ matrix.repos.repo }}'
+        run: |-
+          workflows=(
+            'on-pr.yaml'
+            'on-repo-created.yaml'
+          )
+
+          gh repo list \
+            --jq '.[] | { owner: .owner.login, repo: .name }' \
+            --json "name,owner" \
+            --limit 1000 \
+            --no-archived \
+            --source | while read -r inputs; do
+            for workflow in "${workflows[@]}"; do
+              echo "$inputs" | gh workflow --repo '${{ github.repository }}' \
+                run "$workflow" --json
+            done
+          done
         env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
-    strategy:
-      matrix:
-        repos: ${{ fromJson(needs.list.outputs.repos) }}
-        workflow:
-          - on-pr.yaml
-          - on-repo-created.yaml
-      fail-fast: false
