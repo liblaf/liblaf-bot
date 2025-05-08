@@ -7,8 +7,9 @@ import { App } from "octokit";
 import { Logger } from "tslog";
 import { UAParser } from "ua-parser-js";
 
-export const app: OpenAPIHono<{ Bindings: CloudflareBindings }> =
-  new OpenAPIHono<{ Bindings: CloudflareBindings }>();
+const app: OpenAPIHono<{ Bindings: CloudflareBindings }> = new OpenAPIHono<{
+  Bindings: CloudflareBindings;
+}>();
 
 const logger = new Logger();
 
@@ -75,3 +76,5 @@ app.openapi(
     return resp;
   },
 );
+
+export default app;
