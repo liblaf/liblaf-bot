@@ -16,7 +16,7 @@ jobs:
     steps:
       - name: Dispatch
         run: |-
-          gh repo list \
+          gh repo list '${{ github.repository_owner }}' \
             --jq '.[] | { owner: .owner.login, repo: .name }' \
             --json "name,owner" \
             --limit 1000 \
