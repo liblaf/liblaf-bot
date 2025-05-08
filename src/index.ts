@@ -1,9 +1,10 @@
 import { OpenAPIHono, createRoute } from "@hono/zod-openapi";
+import type { OctokitResponse } from "@octokit/types";
 import { createWebMiddleware } from "@octokit/webhooks";
 import { Scalar } from "@scalar/hono-api-reference";
 import { env } from "hono/adapter";
 import { HTTPException } from "hono/http-exception";
-import { App } from "octokit";
+import { App, type Octokit } from "octokit";
 import { Logger } from "tslog";
 import { UAParser } from "ua-parser-js";
 
@@ -52,19 +53,9 @@ app.openapi(
     });
 
     gh.webhooks.on("repository.created", async ({ octokit, payload }) => {
-      typeof octokit;
       const owner: string = payload.repository.owner.login;
       const repo: string = payload.repository.name;
-      await octokit.request(
-        "POST /repos/{owner}/{repo}/actions/workflows/{workflow_id}/dispatches",
-        {
-          owner,
-          repo,
-          workflow_id: "bot-repo-created.yaml",
-          ref: "main",
-          inputs: { owner, repo },
-        },
-      );
+      await createWorkflowDispatch(octokit, owner, repo);
     });
 
     gh.webhooks.onError((err) => {
@@ -76,5 +67,22 @@ app.openapi(
     return resp;
   },
 );
+
+async function createWorkflowDispatch(
+  octokit: Octokit,
+  owner: string,
+  repo: string,
+): Promise<OctokitResponse<never, 204>> {
+  return octokit.request(
+    "POST /repos/{owner}/{repo}/actions/workflows/{workflow_id}/dispatches",
+    {
+      owner: "liblaf",
+      repo: "liblaf-bot",
+      workflow_id: "bot-repo-created.yaml",
+      ref: "main",
+      inputs: { owner, repo },
+    },
+  );
+}
 
 export default app;
