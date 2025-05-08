@@ -1,0 +1,61 @@
+name: >-
+  On: PR
+
+run-name: >-
+  ${{ inputs.owner }}/${{ inputs.repo }} > PR
+
+on:
+  workflow_dispatch:
+    inputs:
+      owner:
+        description: owner
+        required: true
+      repo:
+        description: repo
+        required: true
+
+jobs:
+  merge:
+    name: Merge
+    runs-on: ubuntu-latest
+    concurrency:
+      group: ${{ inputs.owner }}/${{ inputs.repo }}/${{ github.workflow }}/merge
+      cancel-in-progress: true
+    steps:
+      - id: auth
+        name: Auth App
+        uses: liblaf/actions/auth-app@main
+        with:
+          app-id: ${{ secrets.GH_APP_ID }}
+          private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
+          owner: ${{ inputs.owner }}
+          repositories: ${{ inputs.repo }}
+      - name: Merge Release Please
+        uses: liblaf/actions/pr-label@main
+        with:
+          add-label: automerge
+          label: "autorelease: pending"
+          token: ${{ steps.auth.outputs.token }}
+      - name: Merge Renovate
+        uses: liblaf/actions/pr-label@main
+        with:
+          add-label: automerge
+          app: renovate
+          token: ${{ steps.auth.outputs.token }}
+
+  review:
+    name: Review
+    runs-on: ubuntu-latest
+    concurrency:
+      group: ${{ inputs.owner }}/${{ inputs.repo }}/${{ github.workflow }}/review
+      cancel-in-progress: true
+    steps:
+      - name: Review
+        uses: liblaf/actions/pr-review@main
+        with:
+          author: |-
+            github-actions[bot]
+            liblaf-bot[bot]
+            release-please[bot]
+            renovate[bot]
+          token: ${{ secrets.GH_PAT }}
