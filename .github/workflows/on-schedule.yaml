@@ -17,7 +17,6 @@ jobs:
       - name: Dispatch
         run: |-
           workflows=(
-            'on-pr.yaml'
             'on-repo-created.yaml'
           )
 
