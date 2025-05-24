@@ -65,12 +65,11 @@ jobs:
         uses: liblaf/actions/copier-update@main
       - if: ${{ steps.branches.outputs.n_branches > 0 }}
         name: Git Auto Commit
-        uses: stefanzweifel/git-auto-commit-action@v5
+        uses: dsanders11/github-app-commit-action@v1
         with:
-          commit_message: "chore(copier): update from template"
-          commit_user_name: ${{ steps.auth.outputs.committer-name }}
-          commit_user_email: ${{ steps.auth.outputs.committer-email }}
-          commit_author: ${{ steps.auth.outputs.author }}
+          fail-on-no-changes: false
+          message: "chore(copier): update from template"
+          token: ${{ steps.auth.outputs.token }}
 
   label:
     name: Label
