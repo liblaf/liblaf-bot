@@ -64,7 +64,7 @@ jobs:
         name: Copier Update
         uses: liblaf/actions/copier-update@main
       - if: ${{ steps.branches.outputs.n_branches > 0 }}
-        name: Git Auto Commit
+        name: Commit
         uses: dsanders11/github-app-commit-action@v1
         with:
           fail-on-no-changes: false
