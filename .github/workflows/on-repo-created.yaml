@@ -34,6 +34,8 @@ jobs:
 
   copier:
     name: Copier
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
     concurrency:
       group: ${{ inputs.owner }}/${{ inputs.repo }}/${{ github.workflow }}/copier
@@ -63,6 +65,9 @@ jobs:
       - if: ${{ steps.branches.outputs.n_branches > 0 }}
         name: Copier Update
         uses: liblaf/actions/copier-update@main
+      - if: ${{ steps.branches.outputs.n_branches > 0 }}
+        name: Git Add
+        run: git add --all
       - if: ${{ steps.branches.outputs.n_branches > 0 }}
         name: Commit
         uses: dsanders11/github-app-commit-action@v1
