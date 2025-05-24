@@ -74,6 +74,8 @@ jobs:
         with:
           fail-on-no-changes: false
           message: "chore(copier): update from template"
+          owner: ${{ inputs.owner }}
+          repository: ${{ inputs.repo }}
           token: ${{ steps.auth.outputs.token }}
 
   label:
