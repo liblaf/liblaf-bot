@@ -66,13 +66,10 @@ jobs:
         name: Copier Update
         uses: liblaf/actions/copier-update@main
       - if: ${{ steps.branches.outputs.n_branches > 0 }}
-        name: Git Add
-        run: git add --all
-      - if: ${{ steps.branches.outputs.n_branches > 0 }}
         name: Commit
-        uses: dsanders11/github-app-commit-action@v1
+        uses: liblaf/actions/commit@main
         with:
-          fail-on-no-changes: false
+          add-options: --verbose --all
           message: "chore(copier): update from template"
           owner: ${{ inputs.owner }}
           repository: ${{ inputs.repo }}
