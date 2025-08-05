@@ -41,7 +41,7 @@
     "prepack": "npm run generate-types && npm run build"
   },
   "dependencies": {
-    "@hono/zod-openapi": "^0.19.6",
+    "@hono/zod-openapi": "^1.0.0",
     "@octokit/webhooks": "^14.0.0",
     "@scalar/hono-api-reference": "^0.9.1",
     "hono": "^4.7.7",
