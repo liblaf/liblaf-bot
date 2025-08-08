@@ -51,7 +51,7 @@
     "zod": "^3.24.3"
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.9.4",
+    "@biomejs/biome": "^2.0.0",
     "@tsconfig/bun": "^1.0.7",
     "@types/bun": "^1.2.10",
     "smee-client": "^3.1.1",
