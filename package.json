@@ -48,7 +48,7 @@
     "octokit": "^5.0.2",
     "tslog": "^4.9.3",
     "ua-parser-js": "^2.0.3",
-    "zod": "^3.24.3"
+    "zod": "^4.0.0"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
